@@ -310,7 +310,7 @@ async def run_query(url, name, notify, minPrice, maxPrice):
                         .get(link)
                     ):  # found a new element
                         tmp = (
-                            + name
+                            name
                             + ": "
                             + title
                             + " € "
