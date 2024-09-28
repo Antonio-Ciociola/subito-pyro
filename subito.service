@@ -1,0 +1,18 @@
+[Unit]
+Description=Subito Scraper
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/home/sonic/gits/subito/venv/bin/python3 /home/sonic/gits/subito/main.py --daemon --delay 10
+LogLevelMax=6
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=/home/sonic/gits/subito
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
