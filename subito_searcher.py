@@ -201,6 +201,54 @@ def delete(toDelete):
     queries.pop(toDelete)
 
 
+async def get_pages(url):
+
+    products_deleted = False
+
+    global queries
+    pageGet = requests.get(url)
+    soup = BeautifulSoup(pageGet.text, "html.parser")
+
+    product_list_items = soup.find_all("div", class_=re.compile(r"item-card"))
+
+    pages=[]
+
+    for product in product_list_items:
+        title = product.find("h2").string
+        page = {}
+        page.title = title
+        try:
+            price = product.find("p", class_=re.compile(r"price")).contents[0]
+            # check if the span tag exists
+            price_soup = BeautifulSoup(price, "html.parser")
+            if type(price_soup) == Tag:
+                continue
+            # at the moment (20.5.2021) the price is under the 'p' tag with 'span' inside if shipping available
+            price = int(price.replace(".", "")[:-2])
+            page.price = price
+        except:
+            price = "Unknown price"
+            page.price = price
+        link = product.find("a").get("href")
+        page.link = link
+
+        sold = product.find("span", re.compile(r"item-sold-badge"))
+        page.sold = sold
+        try:
+            page.location = (
+                product.find("span", re.compile(r"town")).string
+                + product.find("span", re.compile(r"city")).string
+            )
+        except:
+            print(
+                datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
+                + " Unknown location for item %s" % (title)
+            )
+            page.location = "Unknown location"
+        pages.append(page)
+    return pages
+
+
 async def run_query(url, name, notify, minPrice, maxPrice):
     """A function to run a query
 
@@ -228,59 +276,31 @@ async def run_query(url, name, notify, minPrice, maxPrice):
 
     products_deleted = False
 
+    pages=get_pages(url)
+
+    msgs=[]
+
     global queries
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, "html.parser")
 
-    product_list_items = soup.find_all("div", class_=re.compile(r"item-card"))
-    msgs = []
-
-    for product in product_list_items:
-        title = product.find("h2").string
-        try:
-            price = product.find("p", class_=re.compile(r"price")).contents[0]
-            # check if the span tag exists
-            price_soup = BeautifulSoup(price, "html.parser")
-            if type(price_soup) == Tag:
-                continue
-            # at the moment (20.5.2021) the price is under the 'p' tag with 'span' inside if shipping available
-            price = int(price.replace(".", "")[:-2])
-        except:
-            price = "Unknown price"
-        link = product.find("a").get("href")
-
-        sold = product.find("span", re.compile(r"item-sold-badge"))
-
+    for page in pages:
         # check if the product has already been sold
-        if sold != None:
+        if page.sold != None:
             # if the product has previously been saved remove it from the file
             if queries.get(name).get(url).get(minPrice).get(maxPrice).get(link):
                 del queries[name][url][minPrice][maxPrice][link]
                 products_deleted = True
             continue
-
-        try:
-            location = (
-                product.find("span", re.compile(r"town")).string
-                + product.find("span", re.compile(r"city")).string
-            )
-        except:
-            print(
-                datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
-                + " Unknown location for item %s" % (title)
-            )
-            location = "Unknown location"
-        if minPrice == "null" or price == "Unknown price" or price >= int(minPrice):
-            if maxPrice == "null" or price == "Unknown price" or price <= int(maxPrice):
+        if minPrice == "null" or page.price == "Unknown price" or page.price >= int(minPrice):
+            if maxPrice == "null" or page.price == "Unknown price" or page.price <= int(maxPrice):
                 if not queries.get(name):  # insert the new search
                     queries[name] = {
                         url: {
                             minPrice: {
                                 maxPrice: {
                                     link: {
-                                        "title": title,
-                                        "price": price,
-                                        "location": location,
+                                        "title": page.title,
+                                        "price": page.price,
+                                        "location": page.location,
                                     }
                                 }
                             }
@@ -295,11 +315,11 @@ async def run_query(url, name, notify, minPrice, maxPrice):
                     print(
                         datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
                         + " Adding result:",
-                        title,
+                        page.title,
                         "-",
-                        price,
+                        page.price,
                         "-",
-                        location,
+                        page.location,
                     )
                 else:  # add search results to dictionary
                     if (
@@ -307,18 +327,18 @@ async def run_query(url, name, notify, minPrice, maxPrice):
                         .get(url)
                         .get(minPrice)
                         .get(maxPrice)
-                        .get(link)
+                        .get(page.link)
                     ):  # found a new element
                         tmp = (
                             name
                             + ": "
-                            + title
+                            + page.title
                             + " € "
-                            + str(price)
+                            + str(page.price)
                             + " - "
-                            + location
+                            + page.location
                             + " --> "
-                            + link
+                            + page.link
                             + "\n"
                         )
                         msgs.append(tmp)
