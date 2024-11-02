@@ -1,2 +1,7 @@
+__pycache__/
+database/__pycache__/
+plugins/__pycache__/
 venv/
 my_bot.session
+my_bot.session-journal
+secretsCred.py

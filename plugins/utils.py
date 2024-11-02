@@ -1,3 +1,4 @@
 from pyrogram import filters
+from secretsCred import chat_id
 
-filtro=filters.chat(512312820)
+filtro=filters.chat(chat_id)

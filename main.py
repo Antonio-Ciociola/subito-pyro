@@ -1,9 +1,8 @@
 import sys
 import pyrogram
-from pyro_secrets import api_id, api_hash, bot_token
 import threading
 from time import sleep
-from subito_searcher import scrape
+from scraper import scrape
 import asyncio
 from bot import *
 
