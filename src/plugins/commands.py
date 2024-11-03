@@ -5,7 +5,6 @@ from pyrogram.raw.types import TextUrl
 from plugins.utils import filtro
 import datetime
 from database import *
-from secretsCred import chat_id
 from bot import app
 
 

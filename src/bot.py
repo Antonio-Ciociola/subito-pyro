@@ -1,5 +1,5 @@
 import pyrogram
-from secretsCred import api_id, api_hash, bot_token, chat_id
+from utils.secretsCred import api_id, api_hash, bot_token, chat_id
 
 plugins = dict(root="plugins")
 app = pyrogram.Client(

@@ -1,5 +1,5 @@
 from database import *
-from secretsCred import chat_id
+from utils.secretsCred import chat_id
 from bot import app
 
 async def newItem(item):

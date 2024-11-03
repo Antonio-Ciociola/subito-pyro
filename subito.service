@@ -7,7 +7,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/home/sonic/gits/subito/venv/bin/python3 /home/sonic/gits/subito/main.py
+ExecStart=/home/sonic/gits/subito/run.sh
 LogLevelMax=6
 Environment=PYTHONUNBUFFERED=1
 WorkingDirectory=/home/sonic/gits/subito
