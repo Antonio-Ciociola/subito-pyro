@@ -1,4 +1,3 @@
-import sys
 import pyrogram
 import threading
 from time import sleep

@@ -1,7 +1,8 @@
 import pyrogram
 from utils.secretsCred import api_id, api_hash, bot_token, chat_id
+import os
 
-plugins = dict(root="src/plugins")
+plugins = dict(root="plugins")
 app = pyrogram.Client(
     "my_bot",
     api_id=api_id, api_hash=api_hash,

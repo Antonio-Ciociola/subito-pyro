@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./venv/bin/python3 ./src/main.py
+(cd ./src && ../venv/bin/python3 ./main.py)

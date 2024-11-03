@@ -56,6 +56,10 @@ async def scrape():
             for item in items:
                 item.queryId = query.id
                 # print(f"Title: {item.title}, price: {item.price}, url: {item.url}, location: {item.location}")
+                if query.minPrice and item.price < query.minPrice:
+                    continue
+                if query.maxPrice and item.price > query.maxPrice:
+                    continue
                 if not isPresent(item):
                     print(f"New item found: {item.title}")
                     await newItem(item)
