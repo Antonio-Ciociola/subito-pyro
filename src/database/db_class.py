@@ -16,7 +16,7 @@ class Query(base):
     url = Column(Text(), nullable=False)
     minPrice = Column(Integer, nullable=True)
     maxPrice = Column(Integer, nullable=True)
-
+    items = relationship("Item", backref="query", cascade="all, delete-orphan")
 
 class Item(base):
     __tablename__ = "item"
