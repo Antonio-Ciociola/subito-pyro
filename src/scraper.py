@@ -4,13 +4,21 @@ from bs4 import BeautifulSoup, Tag
 from database import *
 from time import sleep
 from plugins.send import newItem
+from fake_useragent import UserAgent
 
 def getItemsFromUrl(url):
-    HEADERS = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'}
+
+    ua = UserAgent()
+    HEADERS = {'User-Agent': ua.random}
     try:
         pageGet = requests.get(url,headers=HEADERS)
     except Exception as e:
         print(f"Error: {e}")
+        return []
+    
+    #if error code is not 200
+    if pageGet.status_code != 200:
+        print(f"Error: {pageGet.status_code}")
         return []
 
     soup = BeautifulSoup(pageGet.text, "html.parser")
@@ -68,7 +76,7 @@ async def scrape():
                     new=True
             if not new:
                 print(f"No new items found for query: {query.name}")
-        sleep(60)
+        sleep(300)
 
 if __name__ == "__main__":
     url = "https://www.subito.it/annunci-lazio/vendita/usato/?q=macbook"

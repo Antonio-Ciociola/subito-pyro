@@ -4,3 +4,4 @@ pyrogram
 TgCrypto
 sqlalchemy
 pymysql
+fake-useragent
