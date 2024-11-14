@@ -1,12 +1,11 @@
 [Unit]
 Description=Subito Scraper
 After=network.target
-StartLimitIntervalSec=0
 
 [Service]
 Type=simple
 Restart=always
-RestartSec=1
+RestartSec=60
 ExecStart=/home/sonic/gits/subito/run.sh
 LogLevelMax=6
 Environment=PYTHONUNBUFFERED=1
