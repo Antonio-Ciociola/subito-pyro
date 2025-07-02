@@ -1,16 +1,16 @@
 [Unit]
 Description=Subito Scraper
 After=network.target
-StartLimitIntervalSec=0
 
 [Service]
 Type=simple
 Restart=always
-RestartSec=1
-ExecStart=/home/sonic/gits/subito/run.sh
+RestartSec=10
+RuntimeMaxSec=1d
+ExecStart=/home/sonic/gits/subito/venv/bin/python3 /home/sonic/gits/subito/src/main.py
 LogLevelMax=6
 Environment=PYTHONUNBUFFERED=1
-WorkingDirectory=/home/sonic/gits/subito
+WorkingDirectory=/home/sonic/gits/subito/src
 StandardOutput=journal
 StandardError=journal
 
