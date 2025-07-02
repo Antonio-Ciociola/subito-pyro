@@ -1,6 +1,3 @@
-listQ - List queries
-addQ - Add query
-removeQ - Remove query
-
-command1 - Description
-command2 - Another description
+list - List queries
+add - Add query
+remove - Remove query
