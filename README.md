@@ -2,7 +2,7 @@
 
 Telegram bot and web scraper for monitoring new classified ads on [subito.it](https://www.subito.it/). It allows you to define search queries and receive notifications via Telegram when new items matching your criteria are posted.
 
-Forked from <https://github.com/morrolinux/subito-it-searcher>
+Forked from <https://github.com/Sonic803/subito-pyro.git>
 
 ## Requirements
 
