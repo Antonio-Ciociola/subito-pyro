@@ -1,8 +1,8 @@
 # Subito pyrogram
 
-Telegram bot and web scraper for monitoring new classified ads on [subito.it](https://www.subito.it/). It allows you to define search queries and receive notifications via Telegram when new items matching your criteria are posted.
+Telegram bot and web scraper for monitoring new listings on [subito.it](https://www.subito.it/). It allows you to define search queries and receive notifications via Telegram when new items matching your criteria are posted.
 
-Forked from <https://github.com/Sonic803/subito-pyro.git>
+Based on <https://github.com/morrolinux/subito-it-searcher>
 
 ## Requirements
 
@@ -15,7 +15,7 @@ Forked from <https://github.com/Sonic803/subito-pyro.git>
 1. **Clone the repository and setup venv**
 
    ```sh
-   git clone https://github.com/Sonic803/subito.git
+   git clone https://github.com/Antonio-Ciociola/subito-pyro.git
    cd subito
    virtualenv venv
    source venv/bin/activate
